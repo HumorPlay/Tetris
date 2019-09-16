@@ -13,6 +13,9 @@ namespace TetrisGB
         private readonly int boardHeight;
         private readonly int boardWidth;
 
+        private Tetromino currentTetramino;
+        private readonly TetrominoManager manager;
+
         public Board()
         {
 
@@ -23,6 +26,11 @@ namespace TetrisGB
 
             InitFreeSpaces();
             InitBoarders();
+
+            manager = new TetrominoManager();
+            currentTetramino = manager.GetRandomTetromino();
+
+            AddTetraminoToBoard();
 
         }
 
@@ -61,13 +69,14 @@ namespace TetrisGB
 
             }
 
-
-
-
-
         }
 
+        private void AddTetraminoToBoard()
+        {
+            foreach (Unit i in currentTetramino.units)
+                cells[i.Row][i.Column].TransformToTetramino();
 
+        }
 
 
 

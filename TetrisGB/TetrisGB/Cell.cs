@@ -23,6 +23,8 @@ namespace TetrisGB
         {
             switch(CellKind)
             {
+                case CellKind.Tetromino:
+                    return "■ ";
                 case CellKind.Border:
                     return "* ";
                 case CellKind.FreeSpace:
@@ -37,5 +39,12 @@ namespace TetrisGB
             CellKind = cellKind;
 
         }
+
+        public void TransformToTetramino()
+        {
+            CellKind = CellKind.Tetromino;
+        }
+
+
     }
 }
