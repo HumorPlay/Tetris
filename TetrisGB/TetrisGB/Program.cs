@@ -10,6 +10,13 @@ namespace TetrisGB
     {
         static void Main(string[] args)
         {
+
+            Console.Title = "Tetris";
+          
+            Game game = new Game();
+
+            Console.ReadLine();
+
         }
     }
 }
