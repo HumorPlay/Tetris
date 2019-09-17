@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace TetrisGB
 {
@@ -19,6 +20,7 @@ namespace TetrisGB
     public class Game
     {
         private Board board;
+        private Timer timer;
 
         public Game()
         {
@@ -31,8 +33,25 @@ namespace TetrisGB
             board = new Board();
             Console.WindowWidth = 66;
             Console.WindowHeight = 32;
-            board.Show();
+            Console.Write(board);
+
+            timer = new Timer
+            {
+                Interval = 1000,
+                Enabled = true
+            };
+            timer.Elapsed += TimerTick;
+
         }
+
+        private void TimerTick(object sender, ElapsedEventArgs e)
+        {
+            if (!gameState)
+                return;
+            board.MoveTetromino(MoveDirection.Down);
+            Console.Write(board);
+        }
+
 
         private static bool gameState;
 
@@ -68,7 +87,7 @@ namespace TetrisGB
                         break;
                 }
 
-                board.Show();
+                Console.Write(board);
                 consoleKey = Console.ReadKey(true).Key;
             }
 

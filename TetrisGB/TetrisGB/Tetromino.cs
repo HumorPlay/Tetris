@@ -11,6 +11,14 @@ namespace TetrisGB
         public TetrominoKind Kind { get; set; }
         public Unit[] units = new Unit[4];
 
+        public Tetromino GetCopy()
+        {
+            Tetromino copy = new Tetromino();
+            copy.Kind = this.Kind;
+            for (int i = 0; i < units.Length; i++)
+                copy.units[i] = this.units[i];
+            return copy;
+        }
 
     }
     public enum TetrominoKind { I, O, T, J, L, S, Z }
@@ -27,4 +35,5 @@ namespace TetrisGB
         }
 
     }
+
 }

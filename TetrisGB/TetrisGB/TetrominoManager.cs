@@ -8,13 +8,15 @@ namespace TetrisGB
 {
     class TetrominoManager
     {
-
+        private readonly System.Random random;
         public TetrominoManager()
         {
+            random = new Random();
             InitDefaultTetrominos();
         }
 
         private readonly Tetromino[] defaultTetromonos = new Tetromino[7];
+
 
         private void InitDefaultTetrominos()
         {
@@ -36,9 +38,9 @@ namespace TetrisGB
 
             Tetromino tetrominoT = new Tetromino();
             tetrominoT.Kind = TetrominoKind.T;
-            tetrominoT.units[0] = new Unit(0, 4);
+            tetrominoT.units[2] = new Unit(0, 4);
             tetrominoT.units[1] = new Unit(1, 4);
-            tetrominoT.units[2] = new Unit(0, 5);
+            tetrominoT.units[0] = new Unit(0, 5);
             tetrominoT.units[3] = new Unit(0, 3);
             defaultTetromonos[2] = tetrominoT;
 
@@ -77,9 +79,35 @@ namespace TetrisGB
 
         public Tetromino GetRandomTetromino()
         {
-            return defaultTetromonos[3];
+
+            int index = random.Next(7);
+            Tetromino nextTetromino = defaultTetromonos[index];
+            return nextTetromino.GetCopy();
 
         }
 
+        public Tetromino Rotate(Tetromino tetromino)
+        {
+            return RotateByMatrix(tetromino);
+        }
+        private Tetromino RotateByMatrix (Tetromino tetromino)
+        {
+            Tetromino rotated = new Tetromino();
+
+            for (int i = 0; i < rotated.units.Length; i++)
+                rotated.units[i] = Rotate(tetromino.units[i], tetromino.units[2]);
+            rotated.Kind = tetromino.Kind;
+            return rotated;
+        }
+
+        private Unit Rotate (Unit unit, Unit centralUnit)
+        {
+            int[][] rMatrix = { new[] { 0, 1 }, new[] { -1, 0 } };
+            int[] diff = { unit.Row - centralUnit.Row, unit.Column - centralUnit.Column };
+            int[] multiplication = { rMatrix[0][0] * diff[0] + rMatrix[0][1] * diff[1], rMatrix[1][0] * diff[0] + rMatrix[1][1] * diff[1] };
+            int[] sum = { centralUnit.Row + multiplication[0], centralUnit.Column + multiplication[1] };
+            return new Unit { Row = sum[0], Column = sum[1] };
+
+        }
     }
 }
