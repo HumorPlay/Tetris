@@ -88,6 +88,8 @@ namespace TetrisGB
                 }
 
                 Console.Write(board);
+                board.ShowLines();
+                board.ShowPoints();
                 consoleKey = Console.ReadKey(true).Key;
             }
 

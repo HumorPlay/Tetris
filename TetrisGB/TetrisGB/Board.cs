@@ -12,6 +12,8 @@ namespace TetrisGB
 
         private readonly int boardHeight;
         private readonly int boardWidth;
+        private long points =0;
+        private int lines =0;
 
         private Tetromino currentTetramino;
         private readonly TetrominoManager manager;
@@ -29,6 +31,9 @@ namespace TetrisGB
 
             manager = new TetrominoManager();
             currentTetramino = manager.GetRandomTetromino();
+
+            ShowLines();
+            ShowPoints();
 
             AddTetraminoToBoard();
 
@@ -56,6 +61,19 @@ namespace TetrisGB
             for (int i = 0; i < boardWidth; i++)
                 cells[boardHeight - 1][i] = new Cell(CellKind.Border);
 
+        }
+        public void ShowLines()
+        {
+           
+            Console.SetCursorPosition(25, 7);
+            Console.Write($"Количество убраных линий - {lines}");
+
+        }
+
+        public void ShowPoints()
+        {
+            Console.SetCursorPosition(25, 10);
+            Console.Write($"Количество набраных очков - {points}");
         }
 
         public void Show()
@@ -201,6 +219,7 @@ namespace TetrisGB
         }
         private void RemoveBlocks()
         {
+            int multy = 0;
             for (int i = 0; i < boardHeight - 1; i++)
             {
                 if (HasFreeSpace(cells[i]))
@@ -226,8 +245,13 @@ namespace TetrisGB
 
                     }
                 }
+                lines++;
+                multy++;
+                
             }
-
+            points = points + 80 * multy * multy;
+            //ShowLines();
+            //ShowPoints();
         }
         private bool HasFreeSpace(Cell[] cellRow)
         {
