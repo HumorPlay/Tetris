@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace TetrisGB
 {
 
-    public enum CellKind {
+    public enum CellKind
+    {
         Block,
         Border,
         Tetromino,
@@ -19,9 +20,17 @@ namespace TetrisGB
     {
         public CellKind CellKind { get; private set; }
 
+        public bool IsblockOrBorder
+        {
+            get
+            {
+                return CellKind == CellKind.Block || CellKind == CellKind.Border;
+            }
+        }
+
         public override string ToString()
         {
-            switch(CellKind)
+            switch (CellKind)
             {
                 case CellKind.Tetromino:
                     return "■ ";
@@ -29,12 +38,12 @@ namespace TetrisGB
                     return "* ";
                 case CellKind.FreeSpace:
                     return "  ";
-               default:
+                default:
                     return "  ";
-            }  
+            }
         }
 
-        public Cell (CellKind cellKind)
+        public Cell(CellKind cellKind)
         {
             CellKind = cellKind;
 
@@ -45,6 +54,10 @@ namespace TetrisGB
             CellKind = CellKind.Tetromino;
         }
 
+        public void TransformToFreeSpace()
+        {
+            CellKind = CellKind.FreeSpace;
+        }
 
     }
 }

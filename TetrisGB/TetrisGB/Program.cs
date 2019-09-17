@@ -14,7 +14,7 @@ namespace TetrisGB
             Console.Title = "Tetris";
           
             Game game = new Game();
-
+            game.Start();
             Console.ReadLine();
 
         }

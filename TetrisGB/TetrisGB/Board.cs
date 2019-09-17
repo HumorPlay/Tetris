@@ -78,7 +78,45 @@ namespace TetrisGB
 
         }
 
+        public void MoveTetromino(MoveDirection direction)
+        {
 
+            HideTetromino();
+            switch(direction)
+            {
+                case MoveDirection.Right:
+                case MoveDirection.Left:
+                    bool right = direction == MoveDirection.Right;
+                    int offset = right ? 1 : -1;
 
+                    if (ClashWithBloskOrBorders(currentTetramino, offset))
+                        break;
+
+                    for (int i = 0; i < currentTetramino.units.Length; i++)
+                        currentTetramino.units[i].Column = currentTetramino.units[i].Column + offset;
+                    break;
+            }
+            AddTetraminoToBoard();
+        }
+
+        private void HideTetromino()
+        {
+            foreach (Unit i in currentTetramino.units)
+                cells[i.Row][i.Column].TransformToFreeSpace();
+        }
+
+        private bool ClashWithBloskOrBorders(Tetromino tetromino, int offset = 0)
+        {
+            foreach(Unit i in tetromino.units)
+            {
+                if (i.Column + offset < 0)
+                    return true;
+                if (i.Column + offset > 9)
+                    return true;
+                if (cells[i.Row][i.Column + offset].IsblockOrBorder)
+                    return true;
+            }
+            return false;
+        }
     }
 }

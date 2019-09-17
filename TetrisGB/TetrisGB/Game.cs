@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace TetrisGB
 {
+
+    public enum MoveDirection
+    {
+        Down,
+        InstantlyDown,
+        Right,
+        Left,
+        Rotate
+    }
+
     public class Game
     {
         private Board board;
@@ -24,5 +34,70 @@ namespace TetrisGB
             board.Show();
         }
 
+        private static bool gameState;
+
+        public static void EndGame()
+        {
+            gameState = false;
+        }
+
+        public void Start()
+        {
+
+            gameState = true;
+            ConsoleKey consoleKey = ConsoleKey.Backspace;
+
+            while(gameState)
+            {
+                switch(consoleKey)
+                {
+                    case ConsoleKey.UpArrow:
+                        board.MoveTetromino(MoveDirection.Rotate);
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        board.MoveTetromino(MoveDirection.Left);
+                        break;
+                    case ConsoleKey.DownArrow:
+                        board.MoveTetromino(MoveDirection.Down);
+                        break;
+                    case ConsoleKey.RightArrow:
+                        board.MoveTetromino(MoveDirection.Right);
+                        break;
+                    case ConsoleKey.Spacebar:
+                        board.MoveTetromino(MoveDirection.InstantlyDown);
+                        break;
+                }
+
+                board.Show();
+                consoleKey = Console.ReadKey(true).Key;
+            }
+
+            Console.SetCursorPosition(0, 24);
+            Console.WriteLine("Игра завершена");
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
+
+
+
+
+
+
+
 }
+
+
